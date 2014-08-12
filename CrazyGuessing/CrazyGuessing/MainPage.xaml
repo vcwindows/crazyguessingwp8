@@ -11,10 +11,11 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Landscape" Orientation="Landscape"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="MainPage_OnLoaded">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <MediaElement x:Name="sound"/>
         <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/Background.jpg"></Image>
         <StackPanel x:Name="MPage1Panel" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="疯狂猜词" FontSize="100" Foreground="#FF1B2985" Opacity="0.7" Margin="0,20,0,0"/>

@@ -98,7 +98,7 @@ namespace CrazyGuessing
         private int totalCount = 0;
 
         private DispatcherTimer timer = null;
-        private int timerCount = 20;
+        private int timerCount = 72;
         private DateTime dataTime = new DateTime();
 
         private void ProcessAccelerometerReading(AccelerometerReadingEventArgs e)
@@ -139,6 +139,8 @@ namespace CrazyGuessing
                             dataTime = DateTime.Now;
                             MStringTextBlock.Text = pageList1[random.Next(0, pageList1.Count - 1)];
                             totalCount++;
+                            sound.Source = new Uri("Resources/right.wav", UriKind.Relative);
+                            sound.Play();
                         });
                     }).Start();
             }
@@ -152,7 +154,9 @@ namespace CrazyGuessing
                         dataTime = DateTime.Now;
                         Dispatcher.BeginInvoke(() =>
                         {
-                            MStringTextBlock.Text = pageList1[random.Next(0, pageList1.Count - 1)];
+                            MStringTextBlock.Text = pageList1[random.Next(0, pageList1.Count - 1)]; 
+                            sound.Source = new Uri("Resources/skip.wav", UriKind.Relative);
+                            sound.Play();
                         });
                     }).Start();
             }
@@ -199,6 +203,12 @@ namespace CrazyGuessing
         {
             MPage1Panel.Visibility = Visibility.Visible;
             MCountPanel.Visibility = Visibility.Collapsed;
+            totalCount = 0;
+        }
+
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SystemTray.IsVisible = false;
         }
     }
 }
