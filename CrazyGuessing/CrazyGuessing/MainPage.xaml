@@ -18,17 +18,22 @@
         <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/Background.jpg"></Image>
         <StackPanel x:Name="MPage1Panel" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="疯狂猜词" FontSize="100" Foreground="#FF1B2985" Opacity="0.7" Margin="0,20,0,0"/>
-
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <Button HorizontalAlignment="Stretch" x:Name="M_1Button" Click="M_1Button_OnClick" Content="词条1" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
+            <Button HorizontalAlignment="Stretch" x:Name="M_1Button" Click="M_1Button_OnClick" Content="娱乐" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
         </StackPanel>
         </StackPanel>
-
+        <TextBlock Visibility="Collapsed" x:Name="MNotificationTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9FECE2" FontSize="90" Text="请垂直放于额头"/>
         <TextBlock x:Name="MNumbersTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9FECE2" FontSize="300"/>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock x:Name="MStringTextBlock" Foreground="#FF2740DE"   FontSize="250" Margin="0,30,0,0" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="MStringTextBlock" Foreground="#FF2740DE"   FontSize="200" Margin="0,30,0,0" HorizontalAlignment="Center"/>
             <TextBlock x:Name="MTimesTextBlock" Foreground="#FF2740DE" Opacity="0.5"   Margin="0,-10,0,0" FontSize="80" HorizontalAlignment="Center"/>
         </StackPanel>
+
+        <StackPanel Visibility="Collapsed" x:Name="MCountPanel" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+            <TextBlock Text="答对词数" Foreground="#FF2740DE" Opacity="0.5"   Margin="0,10,0,0" FontSize="80" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="MCountTextBlock" Text="10" Margin="0,-20,0,0" Foreground="#FF2740DE"   FontSize="250"  HorizontalAlignment="Center" />
+<Button Content="回到首页" x:Name="ReturnButton" Click="ReturnButton_OnClick" Margin="0,-30,0,0"/>
+</StackPanel>
     </Grid>
 
 </phone:PhoneApplicationPage>
