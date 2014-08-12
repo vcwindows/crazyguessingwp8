@@ -143,9 +143,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Page1.txt" />
+    <Content Include="Page2.txt" />
+    <Content Include="Page3.txt" />
+    <Content Include="Resources\Begin.wav" />
+    <Content Include="Resources\BeginCountDown.wav" />
+    <Content Include="Resources\ButtonClick.wav" />
+    <Content Include="Resources\cardAppear.wav" />
+    <Content Include="Resources\Correct.wav" />
+    <Content Include="Resources\CountDown.wav" />
+    <Content Include="Resources\GameEnd.wav" />
+    <Content Include="Resources\GameStart.wav" />
+    <Content Include="Resources\GameStart0.wav" />
     <Content Include="Resources\logo.png" />
-    <Content Include="Resources\right.wav" />
-    <Content Include="Resources\skip.wav" />
+    <Content Include="Resources\Next.wav" />
+    <Content Include="Resources\Pass.wav" />
+    <Content Include="Resources\woosh.wav" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

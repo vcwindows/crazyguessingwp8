@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="zh-CN" />
-  <App xmlns="" ProductID="{269a5eb0-b6a2-4b92-abad-9e0a0e251a5b}" Title="疯狂猜词" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="CrazyGuessing author" Description="Sample description" Publisher="CrazyGuessing" PublisherID="{612d3b49-07cc-45f3-8b18-95bd331f411a}">
+  <App xmlns="" ProductID="{269a5eb0-b6a2-4b92-abad-9e0a0e251a5b}" Title="疯狂猜词" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="VCD Studio" Description="Sample description" Publisher="VCD Studio" PublisherID="{612d3b49-07cc-45f3-8b18-95bd331f411a}">
     <IconPath IsRelative="true" IsResource="false">Resources\logo.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
