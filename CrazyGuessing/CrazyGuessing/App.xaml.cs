@@ -61,6 +61,21 @@ namespace CrazyGuessing
         // 此代码在重新激活应用程序时不执行
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+
+            /*
+             * 
+        private void M_1Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            sound.Source = new Uri("Resources/right.wav", UriKind.Relative);
+            sound.Play();
+        }
+
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SystemTray.IsVisible = false;
+        }
+             */
         }
 
         // 激活应用程序(置于前台)时执行的代码

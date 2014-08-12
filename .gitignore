@@ -21,13 +21,5 @@ Release/
 # ignore User Options file
 *.suo
 *.sap
-
-debug/
-ipch/
-*.vs10x
-Thumbs.db
-Design/
-/CrazyGuessing/CrazyGuessing/Bin
 /CrazyGuessing/CrazyGuessing/obj
-/CrazyGuessing/CrazyGuessing/*.user
-/CrazyGuessing/CrazyGuessing/Bin/Debug
+/CrazyGuessing/CrazyGuessing/Bin
