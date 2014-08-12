@@ -144,6 +144,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Page1.txt" />
+    <Content Include="Resources\logo.png" />
+    <Content Include="Resources\right.wav" />
+    <Content Include="Resources\skip.wav" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
