@@ -15,7 +15,6 @@
 
   <!--LayoutRoot 是包含所有页面内容的根网格-->
   <Grid x:Name="LayoutRoot" Background="Transparent">
-    <MediaElement x:Name="SoundMediaElement"/>
     <Image x:Name="BackGroundImage" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/Background.jpg"></Image>
 
     <StackPanel Visibility="Collapsed" x:Name="M_CountPanel" HorizontalAlignment="Center" VerticalAlignment="Stretch">

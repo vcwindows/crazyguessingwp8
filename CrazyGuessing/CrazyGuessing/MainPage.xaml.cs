@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace CrazyGuessing
 {
@@ -22,10 +24,11 @@ namespace CrazyGuessing
 
         Random random = new Random();
 
-        private bool isCheckingDirectionRight = false;
-        private bool isRunning = false;
-        private bool isSkip = false;
-        private bool isOK = false;
+        private bool isCheckingDirectionRight;
+        private bool isRunning;
+        private bool isWaitingForFlapToSkip;
+        private bool isWaitingForFlapToNext;
+        private DateTime lastReachVerticalDirectionTime;
 
         private int totalCount = 0;
 
@@ -53,8 +56,16 @@ namespace CrazyGuessing
 
         private void PlaySound(string soundName)
         {
-            SoundMediaElement.Source = new Uri("Resources/" + soundName + ".wav", UriKind.Relative);
-            SoundMediaElement.Play();
+            // Get the sound from the XAP file
+            var info = App.GetResourceStream(
+              new Uri(String.Format("Resources/{0}.wav", soundName), UriKind.Relative));
+            // Load the SoundEffect
+            var effect = SoundEffect.FromStream(info.Stream);
+            // Tell the XNA Libraries to continue to run
+            FrameworkDispatcher.Update();
+
+            // Play the Sound
+            effect.Play();
         }
 
         #region Start A Round
@@ -127,8 +138,8 @@ namespace CrazyGuessing
             {
                 isRunning = false;
                 isCheckingDirectionRight = false;
-                isSkip = false;
-                isOK = false;
+                isWaitingForFlapToSkip = false;
+                isWaitingForFlapToNext = false;
 
                 Dispatcher.BeginInvoke(() =>
                 {
@@ -144,13 +155,13 @@ namespace CrazyGuessing
             // last 10 seconds, play tip sound
             if (timerCount <= 10 && timerCount > 2)
             {
-                new Thread(() => Dispatcher.BeginInvoke(() => PlaySound("cardAppear"))).Start();
+                PlaySound("cardAppear");
                 return;
             }
 
             if (timerCount == 2)
             {
-                new Thread(() => Dispatcher.BeginInvoke(() => PlaySound("GameEnd"))).Start();
+                PlaySound("GameEnd");
                 return;
             }
 
@@ -160,108 +171,113 @@ namespace CrazyGuessing
 
         void _ac_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() => ProcessAccelerometerReading(e));
-        }
-
-        private void ProcessAccelerometerReading(SensorReadingEventArgs<AccelerometerReading> e)
-        {
             if (!isRunning) return;
             if (isCheckingDirectionRight)
             {
-                if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.3)
+                CheckIsDirectionRightToStart(e);
+                return;
+            }
+            if (!isWaitingForFlapToNext && !isWaitingForFlapToSkip)
+            {
+                if (e.SensorReading.Acceleration.Z > 0.8)
                 {
-                    isCheckingDirectionRight = false;
-                    new Thread(
-                        () =>
-                        {
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                M_NotificationTextBlock.Text = "3";
-                                PlaySound("BeginCountDown");
-                            });
-                            Thread.Sleep(1000);
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                M_NotificationTextBlock.Text = "2";
-                                PlaySound("BeginCountDown");
-                            });
-                            Thread.Sleep(1000);
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                M_NotificationTextBlock.Text = "1";
-                                PlaySound("BeginCountDown");
-                            });
-                            Thread.Sleep(1000);
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                M_NotificationTextBlock.Text = "Go!";
-                                PlaySound("Begin");
-                            });
-                            Thread.Sleep(1000);
-                            Dispatcher.BeginInvoke(() =>
-                            {
-                                M_NotificationTextBlock.Visibility = Visibility.Collapsed;
-                                M_StringTextBlock.Text =
-                                    runningPageList[random.Next(0, runningPageList.Count - 1)];
-                                M_TimesTextBlock.Text =
-                                        (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
-
-                                M_GamingPanel.Visibility = Visibility.Visible;
-                                PlaySound("GameStart");
-                                timer.Start();
-                            });
-                        }).Start();
-
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        M_NotificationTextBlock.Text = "请垂直放于额头";
-                    });
+                    isWaitingForFlapToNext = true;
+                    lastReachVerticalDirectionTime = DateTime.Now;
                     return;
                 }
+
+                if (e.SensorReading.Acceleration.Z < -1)
+                {
+                    isWaitingForFlapToSkip = true;
+                    lastReachVerticalDirectionTime = DateTime.Now;
+                    return;
+                }
+                return;
             }
 
-            if (e.SensorReading.Acceleration.Z > 0.8)
+            if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.2 && (isWaitingForFlapToNext || isWaitingForFlapToSkip))
             {
-                isOK = true;
-            }
+                if (DateTime.Now.Subtract(lastReachVerticalDirectionTime).TotalSeconds < 0.3)
+                {
+                    return;
+                }
 
-            if (e.SensorReading.Acceleration.Z < -1)
-            {
-                isSkip = true;
-            }
+                if (isWaitingForFlapToNext)
+                {
+                    totalCount++;
+                }
+                if (DateTime.Now - lastDateTime <= new TimeSpan(0, 0, 0, 1)) return;
+                lastDateTime = DateTime.Now;
+                var isRight = isWaitingForFlapToNext;
+                isWaitingForFlapToNext = false;
+                isWaitingForFlapToSkip = false;
+                PlaySound(isRight ? "Correct" : "Pass");
 
-            if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.2 && (isOK || isSkip))
-            {
                 new Thread(() => Dispatcher.BeginInvoke(() =>
                 {
-                    if (DateTime.Now - lastDateTime <= new TimeSpan(0, 0, 0, 1)) return;
-                    lastDateTime = DateTime.Now;
-
-                    if (isOK)
-                    {
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            totalCount++;
-                        });
-                    }
-
                     if (runningPageList.Count == 1)
                     {
                         M_StringTextBlock.Text = "猜的太快了!";
                     };
-
                     runningPageList.Remove(M_StringTextBlock.Text);
                     M_StringTextBlock.Text = runningPageList[random.Next(0, runningPageList.Count - 1)];
-
-                    if (isOK) PlaySound("Correct");
-                    if (isSkip) PlaySound("Pass");
-
-                    isOK = false;
-                    isSkip = false;
                 })).Start();
+            }
+        }
+
+        private void CheckIsDirectionRightToStart(SensorReadingEventArgs<AccelerometerReading> e)
+        {
+            if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.3)
+            {
+                isCheckingDirectionRight = false;
+                new Thread(
+                    () =>
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            M_NotificationTextBlock.Text = "3";
+                        });
+                        PlaySound("BeginCountDown");
+                        Thread.Sleep(1000);
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            M_NotificationTextBlock.Text = "2";
+                        });
+                        PlaySound("BeginCountDown");
+                        Thread.Sleep(1000);
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            M_NotificationTextBlock.Text = "1";
+                        });
+                        PlaySound("BeginCountDown");
+                        Thread.Sleep(1000);
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            M_NotificationTextBlock.Text = "Go!";
+                        });
+                        PlaySound("Begin");
+                        Thread.Sleep(1000);
+                        PlaySound("GameStart");
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            M_NotificationTextBlock.Visibility = Visibility.Collapsed;
+                            M_StringTextBlock.Text =
+                                runningPageList[random.Next(0, runningPageList.Count - 1)];
+                            M_TimesTextBlock.Text =
+                                    (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
+
+                            M_GamingPanel.Visibility = Visibility.Visible;
+                            timer.Start();
+                        });
+                    }).Start();
+
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    M_NotificationTextBlock.Text = "请垂直放于额头";
+                });
             }
         }
 
