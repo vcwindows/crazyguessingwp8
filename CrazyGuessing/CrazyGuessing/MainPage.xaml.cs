@@ -18,6 +18,7 @@ namespace CrazyGuessing
     {
         #region Fields
 
+        private const int ARoundSeconds = 72;
         Accelerometer _ac;
 
         List<string> runningPageList = new List<string>();
@@ -26,16 +27,11 @@ namespace CrazyGuessing
 
         private bool isCheckingDirectionRight;
         private bool isRunning;
-        private bool isWaitingForFlapToSkip;
-        private bool isWaitingForFlapToNext;
-        private DateTime lastReachVerticalDirectionTime;
 
         private int totalCount = 0;
 
-        private DispatcherTimer timer = null;
-        private int timerCount = 72;
-
-        private DateTime lastDateTime = new DateTime();
+        private DispatcherTimer timer;
+        private int timerCount = ARoundSeconds;
 
         #endregion
 
@@ -138,8 +134,6 @@ namespace CrazyGuessing
             {
                 isRunning = false;
                 isCheckingDirectionRight = false;
-                isWaitingForFlapToSkip = false;
-                isWaitingForFlapToNext = false;
 
                 Dispatcher.BeginInvoke(() =>
                 {
@@ -149,7 +143,7 @@ namespace CrazyGuessing
                 });
                 timer.Stop();
                 _ac.Stop();
-                timerCount = 72;
+                timerCount = ARoundSeconds;
                 return;
             }
             // last 10 seconds, play tip sound
@@ -169,6 +163,11 @@ namespace CrazyGuessing
 
         #endregion
 
+        private int trackRecordPointsCount;
+        private bool acceptBigTurn = true;
+        private bool waitToCalm = false;
+        private double lastZValue;
+
         void _ac_CurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
         {
             if (!isRunning) return;
@@ -177,108 +176,119 @@ namespace CrazyGuessing
                 CheckIsDirectionRightToStart(e);
                 return;
             }
-            if (!isWaitingForFlapToNext && !isWaitingForFlapToSkip)
+            if (acceptBigTurn)
             {
-                if (e.SensorReading.Acceleration.Z > 0.8)
-                {
-                    isWaitingForFlapToNext = true;
-                    lastReachVerticalDirectionTime = DateTime.Now;
-                    return;
-                }
-
-                if (e.SensorReading.Acceleration.Z < -1)
-                {
-                    isWaitingForFlapToSkip = true;
-                    lastReachVerticalDirectionTime = DateTime.Now;
-                    return;
-                }
+                HandleBigTurn(e);
                 return;
             }
+            if (waitToCalm)
+                HandleToCalm(e);
+        }
 
-            if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.2 && (isWaitingForFlapToNext || isWaitingForFlapToSkip))
+        private void HandleToCalm(SensorReadingEventArgs<AccelerometerReading> e)
+        {
+            if (Math.Abs(e.SensorReading.Acceleration.Z) >= 0.3)
             {
-                if (DateTime.Now.Subtract(lastReachVerticalDirectionTime).TotalSeconds < 0.3)
+                trackRecordPointsCount = 0;
+                return;
+            }
+            if (trackRecordPointsCount == 0)
+            {
+                lastZValue = e.SensorReading.Acceleration.Z;
+                trackRecordPointsCount++;
+            }
+            else
+            {
+                if (Math.Abs(e.SensorReading.Acceleration.Z - lastZValue) > 0.1)
                 {
+                    trackRecordPointsCount = 0;
                     return;
                 }
-
-                if (isWaitingForFlapToNext)
+                trackRecordPointsCount++;
+                if (trackRecordPointsCount >= 5)
                 {
-                    totalCount++;
+                    acceptBigTurn = true;
+                    waitToCalm = false;
                 }
-                if (DateTime.Now - lastDateTime <= new TimeSpan(0, 0, 0, 1)) return;
-                lastDateTime = DateTime.Now;
-                var isRight = isWaitingForFlapToNext;
-                isWaitingForFlapToNext = false;
-                isWaitingForFlapToSkip = false;
-                PlaySound(isRight ? "Correct" : "Pass");
-
-                new Thread(() => Dispatcher.BeginInvoke(() =>
-                {
-                    if (runningPageList.Count == 1)
-                    {
-                        M_StringTextBlock.Text = "猜的太快了!";
-                    };
-                    runningPageList.Remove(M_StringTextBlock.Text);
-                    M_StringTextBlock.Text = runningPageList[random.Next(0, runningPageList.Count - 1)];
-                })).Start();
             }
+        }
+
+        private void HandleBigTurn(SensorReadingEventArgs<AccelerometerReading> e)
+        {
+            if (Math.Abs(e.SensorReading.Acceleration.Z) < 1) return;
+            acceptBigTurn = false;
+            waitToCalm = true;
+            trackRecordPointsCount = 0;
+            PlaySound(e.SensorReading.Acceleration.Z > 0 ? "Correct" : "Pass");
+            totalCount += e.SensorReading.Acceleration.Z > 0 ? 1 : 0;
+            new Thread(() => Dispatcher.BeginInvoke(() =>
+            {
+                if (runningPageList.Count == 1)
+                {
+                    M_StringTextBlock.Text = "猜的太快了!";
+                };
+                runningPageList.Remove(M_StringTextBlock.Text);
+                M_StringTextBlock.Text = runningPageList[random.Next(0, runningPageList.Count - 1)];
+            })).Start();
         }
 
         private void CheckIsDirectionRightToStart(SensorReadingEventArgs<AccelerometerReading> e)
         {
-            if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.3)
+            if (Math.Abs(e.SensorReading.Acceleration.Z) >= 0.3)
             {
-                isCheckingDirectionRight = false;
-                new Thread(
-                    () =>
-                    {
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            M_NotificationTextBlock.Text = "3";
-                        });
-                        PlaySound("BeginCountDown");
-                        Thread.Sleep(1000);
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            M_NotificationTextBlock.Text = "2";
-                        });
-                        PlaySound("BeginCountDown");
-                        Thread.Sleep(1000);
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            M_NotificationTextBlock.Text = "1";
-                        });
-                        PlaySound("BeginCountDown");
-                        Thread.Sleep(1000);
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            M_NotificationTextBlock.Text = "Go!";
-                        });
-                        PlaySound("Begin");
-                        Thread.Sleep(1000);
-                        PlaySound("GameStart");
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            M_NotificationTextBlock.Visibility = Visibility.Collapsed;
-                            M_StringTextBlock.Text =
-                                runningPageList[random.Next(0, runningPageList.Count - 1)];
-                            M_TimesTextBlock.Text =
-                                    (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
 
-                            M_GamingPanel.Visibility = Visibility.Visible;
-                            timer.Start();
-                        });
-                    }).Start();
-
-            }
-            else
-            {
                 Dispatcher.BeginInvoke(() =>
                 {
                     M_NotificationTextBlock.Text = "请垂直放于额头";
                 });
+                return;
             }
+            isCheckingDirectionRight = false;
+            isRunning = false;
+            new Thread(
+                () =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        M_NotificationTextBlock.Text = "3";
+                    });
+                    PlaySound("BeginCountDown");
+                    Thread.Sleep(1000);
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        M_NotificationTextBlock.Text = "2";
+                    });
+                    PlaySound("BeginCountDown");
+                    Thread.Sleep(1000);
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        M_NotificationTextBlock.Text = "1";
+                    });
+                    PlaySound("BeginCountDown");
+                    Thread.Sleep(1000);
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        M_NotificationTextBlock.Text = "Go!";
+                    });
+                    PlaySound("Begin");
+                    Thread.Sleep(1000);
+                    PlaySound("GameStart");
+                    isRunning = true;
+                    trackRecordPointsCount = 0;
+                    acceptBigTurn = true;
+                    waitToCalm = false;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        M_NotificationTextBlock.Visibility = Visibility.Collapsed;
+                        M_StringTextBlock.Text =
+                            runningPageList[random.Next(0, runningPageList.Count - 1)];
+                        M_TimesTextBlock.Text =
+                                (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
+
+                        M_GamingPanel.Visibility = Visibility.Visible;
+                        timer.Start();
+                    });
+                }).Start();
         }
 
         private void ReturnButton_OnClick(object sender, RoutedEventArgs e)
