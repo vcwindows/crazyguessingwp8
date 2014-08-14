@@ -22,7 +22,7 @@ namespace CrazyGuessing
 
         Random random = new Random();
 
-        private bool isStart = false;
+        private bool isCheckingDirectionRight = false;
         private bool isRunning = false;
         private bool isSkip = false;
         private bool isOK = false;
@@ -51,7 +51,13 @@ namespace CrazyGuessing
 
         #endregion
 
-        #region Events
+        private void PlaySound(string soundName)
+        {
+            SoundMediaElement.Source = new Uri("Resources/" + soundName + ".wav", UriKind.Relative);
+            SoundMediaElement.Play();
+        }
+
+        #region Start A Round
 
         private void Page_OnClick(object sender, RoutedEventArgs e)
         {
@@ -63,90 +69,14 @@ namespace CrazyGuessing
             Prepare();
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            if (!isRunning) return;
-            if (isStart) return;
-
-            if (timerCount == 0)
-            {
-                isRunning = false;
-                isStart = false;
-                isSkip = false;
-                isOK = false;
-
-                Dispatcher.BeginInvoke(() =>
-                {
-                    M_GamingPanel.Visibility = Visibility.Collapsed;
-                    MCountTextBlock.Text = totalCount.ToString();
-                    M_CountPanel.Visibility = Visibility.Visible;
-                });
-
-                timer.Stop();
-                _ac.Stop();
-
-                timerCount = 72;
-            }
-
-            if (timerCount == 10)
-            {
-                new Thread(() => Dispatcher.BeginInvoke(() => PlaySound("cardAppear")));
-            }
-
-            if (timerCount == 2)
-            {
-                new Thread(() => Dispatcher.BeginInvoke(() => PlaySound("GameEnd")));
-            }
-
-            if (timerCount > 0)
-            {
-                timerCount--;
-
-                M_TimesTextBlock.Text = (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
-            }
-        }
-
         private void Prepare()
         {
             M_FrontPagePanel.Visibility = Visibility.Collapsed;
             M_NotificationTextBlock.Visibility = Visibility.Visible;
 
-            new Thread(
-                () =>
-                {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        M_NotificationTextBlock.Text = "猜对请前翻";
-                        PlaySound("BeginCountDown");
-                    });
-                    Thread.Sleep(1000);
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        M_NotificationTextBlock.Text = "放弃请后翻";
-                        PlaySound("BeginCountDown");
-                    });
-                    Thread.Sleep(1000);
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        M_NotificationTextBlock.Text = "切记勿手抖";
-                        PlaySound("BeginCountDown");
-                    });
-                    Thread.Sleep(1000);
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        M_NotificationTextBlock.Text = "Go!";
-                        PlaySound("Begin");
-                    });
-                    Thread.Sleep(1000);
-
-                    isStart = true;
-                    isRunning = true;
-                    _ac.Start();
-                }).Start();
+            isCheckingDirectionRight = true;
+            isRunning = true;
+            _ac.Start();
         }
 
         private List<string> GetPageList(string path)
@@ -178,10 +108,52 @@ namespace CrazyGuessing
             return pageList;
         }
 
-        private void PlaySound(string soundName)
+        #endregion
+
+        #region Private Methods
+
+        private void timer_Tick(object sender, EventArgs e)
         {
-            SoundMediaElement.Source = new Uri("Resources/" + soundName + ".wav", UriKind.Relative);
-            SoundMediaElement.Play();
+            if (!isRunning) return;
+            if (isCheckingDirectionRight) return;
+            // minus time count
+            if (timerCount > 0)
+            {
+                timerCount--;
+                M_TimesTextBlock.Text = (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
+            }
+            // if times up, end the round
+            if (timerCount == 0)
+            {
+                isRunning = false;
+                isCheckingDirectionRight = false;
+                isSkip = false;
+                isOK = false;
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    M_GamingPanel.Visibility = Visibility.Collapsed;
+                    MCountTextBlock.Text = totalCount.ToString();
+                    M_CountPanel.Visibility = Visibility.Visible;
+                });
+                timer.Stop();
+                _ac.Stop();
+                timerCount = 72;
+                return;
+            }
+            // last 10 seconds, play tip sound
+            if (timerCount <= 10 && timerCount > 2)
+            {
+                new Thread(() => Dispatcher.BeginInvoke(() => PlaySound("cardAppear"))).Start();
+                return;
+            }
+
+            if (timerCount == 2)
+            {
+                new Thread(() => Dispatcher.BeginInvoke(() => PlaySound("GameEnd"))).Start();
+                return;
+            }
+
         }
 
         #endregion
@@ -194,24 +166,52 @@ namespace CrazyGuessing
         private void ProcessAccelerometerReading(SensorReadingEventArgs<AccelerometerReading> e)
         {
             if (!isRunning) return;
-            if (isStart)
+            if (isCheckingDirectionRight)
             {
                 if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.3)
                 {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        isStart = false;
-                        M_NotificationTextBlock.Visibility = Visibility.Collapsed;
-                        M_StringTextBlock.Text =
-                            runningPageList[random.Next(0, runningPageList.Count - 1)];
-                        M_TimesTextBlock.Text =
-                                (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
+                    isCheckingDirectionRight = false;
+                    new Thread(
+                        () =>
+                        {
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                M_NotificationTextBlock.Text = "3";
+                                PlaySound("BeginCountDown");
+                            });
+                            Thread.Sleep(1000);
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                M_NotificationTextBlock.Text = "2";
+                                PlaySound("BeginCountDown");
+                            });
+                            Thread.Sleep(1000);
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                M_NotificationTextBlock.Text = "1";
+                                PlaySound("BeginCountDown");
+                            });
+                            Thread.Sleep(1000);
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                M_NotificationTextBlock.Text = "Go!";
+                                PlaySound("Begin");
+                            });
+                            Thread.Sleep(1000);
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                M_NotificationTextBlock.Visibility = Visibility.Collapsed;
+                                M_StringTextBlock.Text =
+                                    runningPageList[random.Next(0, runningPageList.Count - 1)];
+                                M_TimesTextBlock.Text =
+                                        (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
 
-                        M_GamingPanel.Visibility = Visibility.Visible;
-                        PlaySound("GameStart");
-                    });
+                                M_GamingPanel.Visibility = Visibility.Visible;
+                                PlaySound("GameStart");
+                                timer.Start();
+                            });
+                        }).Start();
 
-                    timer.Start();
                 }
                 else
                 {
@@ -273,9 +273,9 @@ namespace CrazyGuessing
             M_FrontPagePanel.Visibility = Visibility.Visible;
         }
 
-        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        private void ViewPlayRule_Clicked(object sender, RoutedEventArgs e)
         {
-            SystemTray.IsVisible = false;
+            NavigationService.Navigate(new Uri("/CrazyGuessing;component/PlayRulePage.xaml", UriKind.Relative));
         }
     }
 }

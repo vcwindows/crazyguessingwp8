@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Resources;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Navigation;
@@ -109,6 +110,11 @@ namespace CrazyGuessing
         // 出现未处理的异常时执行的代码
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+            if (e.ExceptionObject.InnerException is SEHException)
+            {
+                e.Handled = true;
+                return;
+            }
             if (Debugger.IsAttached)
             {
                 // 出现未处理的异常；强行进入调试器

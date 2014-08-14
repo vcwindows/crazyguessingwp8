@@ -11,37 +11,40 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Landscape" Orientation="Landscape"
-    shell:SystemTray.IsVisible="True" Loaded="MainPage_OnLoaded">
+    shell:SystemTray.IsVisible="False">
 
-    <!--LayoutRoot 是包含所有页面内容的根网格-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <MediaElement x:Name="SoundMediaElement"/>
-        <Image x:Name="BackGroundImage" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/Background.jpg"></Image>
+  <!--LayoutRoot 是包含所有页面内容的根网格-->
+  <Grid x:Name="LayoutRoot" Background="Transparent">
+    <MediaElement x:Name="SoundMediaElement"/>
+    <Image x:Name="BackGroundImage" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/Background.jpg"></Image>
 
-        <StackPanel Visibility="Collapsed" x:Name="M_CountPanel" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-            <TextBlock Text="答对词数" Foreground="#FF2740DE" Opacity="0.5"   Margin="0,10,0,0" FontSize="80" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="MCountTextBlock" Text="10" Margin="0,-20,0,0" Foreground="#FF2740DE"   FontSize="250"  HorizontalAlignment="Center" />
-            <Button Content="回到首页" x:Name="ReturnButton" Click="ReturnButton_OnClick" Margin="0,-30,0,0"/>
+    <StackPanel Visibility="Collapsed" x:Name="M_CountPanel" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+      <TextBlock Text="答对词数" Foreground="#FF2740DE" Opacity="0.5"   Margin="0,10,0,0" FontSize="80" HorizontalAlignment="Center"/>
+      <TextBlock x:Name="MCountTextBlock" Text="10" Margin="0,-20,0,0" Foreground="#FF2740DE"   FontSize="250"  HorizontalAlignment="Center" />
+      <Button Content="回到首页" x:Name="ReturnButton" Click="ReturnButton_OnClick" Margin="0,-30,0,0"/>
+    </StackPanel>
+
+    
+    <StackPanel Visibility="Collapsed" x:Name="M_GamingPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <TextBlock x:Name="M_StringTextBlock" Foreground="#FF2740DE"   FontSize="200" Margin="0,30,0,0" HorizontalAlignment="Center"/>
+      <TextBlock x:Name="M_TimesTextBlock" Foreground="#FF2740DE" Opacity="0.5"   Margin="0,-10,0,0" FontSize="80" HorizontalAlignment="Center"/>
+    </StackPanel>
+
+    <TextBlock Visibility="Collapsed" x:Name="M_NotificationTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9FECE2" FontSize="90" Text=""/>
+
+    <TextBlock Visibility="Collapsed" x:Name="M_CountNumbersTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9FECE2" FontSize="300"/>
+
+    <Grid x:Name="M_FrontPagePanel">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="疯狂猜词" FontSize="100" Foreground="#FF1B2985" Opacity="0.7" Margin="0,20,0,0"/>
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+          <Button Tag="1" HorizontalAlignment="Stretch" Click="Page_OnClick" Content="娱乐名词" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
+          <Button Tag="2" HorizontalAlignment="Stretch" Click="Page_OnClick" Content="生活用品" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
+          <Button Tag="3" HorizontalAlignment="Stretch" Click="Page_OnClick" Content="体育项目" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
         </StackPanel>
-
-        <StackPanel Visibility="Collapsed" x:Name="M_GamingPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="M_StringTextBlock" Foreground="#FF2740DE"   FontSize="200" Margin="0,30,0,0" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="M_TimesTextBlock" Foreground="#FF2740DE" Opacity="0.5"   Margin="0,-10,0,0" FontSize="80" HorizontalAlignment="Center"/>
-        </StackPanel>
-
-        <TextBlock Visibility="Collapsed" x:Name="M_NotificationTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9FECE2" FontSize="90" Text=""/>
-        
-        <TextBlock Visibility="Collapsed" x:Name="M_CountNumbersTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9FECE2" FontSize="300"/>
-
-        <StackPanel x:Name="M_FrontPagePanel" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="疯狂猜词" FontSize="100" Foreground="#FF1B2985" Opacity="0.7" Margin="0,20,0,0"/>
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <Button Tag="1" HorizontalAlignment="Stretch" Click="Page_OnClick" Content="娱乐名词" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
-                <Button Tag="2" HorizontalAlignment="Stretch" Click="Page_OnClick" Content="生活用品" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
-                <Button Tag="3" HorizontalAlignment="Stretch" Click="Page_OnClick" Content="体育项目" Margin="10,20,10,0" Background="Bisque" Foreground="CadetBlue"/>
-             </StackPanel>
-        </StackPanel>
-
+      </StackPanel>
+      <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="玩法介绍" Background="Bisque" Foreground="CadetBlue" Click="ViewPlayRule_Clicked"/>
     </Grid>
+  </Grid>
 
 </phone:PhoneApplicationPage>
