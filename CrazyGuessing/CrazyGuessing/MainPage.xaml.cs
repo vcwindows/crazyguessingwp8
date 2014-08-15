@@ -28,8 +28,6 @@ namespace CrazyGuessing
         private bool isCheckingDirectionRight;
         private bool isRunning;
 
-        private int totalCount = 0;
-
         private DispatcherTimer timer;
         private int timerCount = ARoundSeconds;
 
@@ -134,16 +132,10 @@ namespace CrazyGuessing
             {
                 isRunning = false;
                 isCheckingDirectionRight = false;
-
-                Dispatcher.BeginInvoke(() =>
-                {
-                    M_GamingPanel.Visibility = Visibility.Collapsed;
-                    MCountTextBlock.Text = totalCount.ToString();
-                    M_CountPanel.Visibility = Visibility.Visible;
-                });
                 timer.Stop();
                 _ac.Stop();
                 timerCount = ARoundSeconds;
+                Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/CrazyGuessing;component/ViewResultPage.xaml", UriKind.Relative)));
                 return;
             }
             // last 10 seconds, play tip sound
@@ -219,15 +211,23 @@ namespace CrazyGuessing
             acceptBigTurn = false;
             waitToCalm = true;
             trackRecordPointsCount = 0;
-            PlaySound(e.SensorReading.Acceleration.Z > 0 ? "Correct" : "Pass");
-            totalCount += e.SensorReading.Acceleration.Z > 0 ? 1 : 0;
+            var isRight = e.SensorReading.Acceleration.Z > 0;
+            PlaySound(isRight ? "Correct" : "Pass");
             new Thread(() => Dispatcher.BeginInvoke(() =>
             {
                 if (runningPageList.Count == 1)
                 {
                     M_StringTextBlock.Text = "猜的太快了!";
                 };
-                runningPageList.Remove(M_StringTextBlock.Text);
+                if (runningPageList.Contains(M_StringTextBlock.Text))
+                {
+                    ViewResultPage.ResultItems.Add(new ViewResultItem
+                    {
+                        Content = M_StringTextBlock.Text,
+                        IsRight = isRight
+                    });
+                    runningPageList.Remove(M_StringTextBlock.Text);
+                }
                 M_StringTextBlock.Text = runningPageList[random.Next(0, runningPageList.Count - 1)];
             })).Start();
         }
@@ -277,6 +277,7 @@ namespace CrazyGuessing
                     trackRecordPointsCount = 0;
                     acceptBigTurn = true;
                     waitToCalm = false;
+                    ViewResultPage.ResultItems.Clear();
                     Dispatcher.BeginInvoke(() =>
                     {
                         M_NotificationTextBlock.Visibility = Visibility.Collapsed;
@@ -289,14 +290,6 @@ namespace CrazyGuessing
                         timer.Start();
                     });
                 }).Start();
-        }
-
-        private void ReturnButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            totalCount = 0;
-
-            M_CountPanel.Visibility = Visibility.Collapsed;
-            M_FrontPagePanel.Visibility = Visibility.Visible;
         }
 
         private void ViewPlayRule_Clicked(object sender, RoutedEventArgs e)
