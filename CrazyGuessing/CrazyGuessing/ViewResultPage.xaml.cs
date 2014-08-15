@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -31,7 +32,20 @@ namespace CrazyGuessing
 
         private void Back_Clicked(object sender, RoutedEventArgs e)
         {
-            NavigationService.RemoveBackEntry();
+            while (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();   
+            }
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            while (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();
+            }
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute));
         }
     }
@@ -47,7 +61,7 @@ namespace CrazyGuessing
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return (bool)value ? new SolidColorBrush(Color.FromArgb(0xff, 0x27, 0x40, 0xde)) : new SolidColorBrush(Colors.Red);
+            return (bool)value ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

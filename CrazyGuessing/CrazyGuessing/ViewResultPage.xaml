@@ -36,7 +36,7 @@
         <TextBlock x:Name="MCountTextBlock" Text="0" Margin="0,-20,0,0" Foreground="#FF2740DE"   FontSize="200"  HorizontalAlignment="Center" />
       </StackPanel>
 
-      <TextBlock Text="猜过了以下词语" Grid.Column="1" Foreground="Red"  Margin="20,0,0,0" FontSize="40"/>
+      <TextBlock Text="猜过了以下词语" Grid.Column="1" Foreground="#FFDA690B"  Margin="20,0,0,0" FontSize="40"/>
       <phone:LongListSelector x:Name="xllsResultDetail" Grid.Column="1" Grid.Row="1" Margin="20,20,0,0">
         <phone:LongListSelector.ItemTemplate>
           <DataTemplate>

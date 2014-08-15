@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Navigation;
 using Microsoft.Devices.Sensors;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -47,6 +48,15 @@ namespace CrazyGuessing
         }
 
         #endregion
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            while (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();
+            }
+        }
 
         private void PlaySound(string soundName)
         {
@@ -191,7 +201,7 @@ namespace CrazyGuessing
             }
             else
             {
-                if (Math.Abs(e.SensorReading.Acceleration.Z - lastZValue) > 0.1)
+                if (Math.Abs(e.SensorReading.Acceleration.Z - lastZValue) > 0.2)
                 {
                     trackRecordPointsCount = 0;
                     return;
@@ -207,7 +217,7 @@ namespace CrazyGuessing
 
         private void HandleBigTurn(SensorReadingEventArgs<AccelerometerReading> e)
         {
-            if (Math.Abs(e.SensorReading.Acceleration.Z) < 1) return;
+            if (Math.Abs(e.SensorReading.Acceleration.Z) < 0.9) return;
             acceptBigTurn = false;
             waitToCalm = true;
             trackRecordPointsCount = 0;
@@ -228,8 +238,20 @@ namespace CrazyGuessing
                     });
                     runningPageList.Remove(M_StringTextBlock.Text);
                 }
-                M_StringTextBlock.Text = runningPageList[random.Next(0, runningPageList.Count - 1)];
+                SetWordContent(runningPageList[random.Next(0, runningPageList.Count - 1)]);
+                
             })).Start();
+        }
+
+        private void SetWordContent(string p)
+        {
+            if (p.Length <= 4)
+                M_StringTextBlock.FontSize = 200;
+            else if (p.Length == 5)
+                M_StringTextBlock.FontSize = 160;
+            else
+                M_StringTextBlock.FontSize = 130;
+            M_StringTextBlock.Text = p;
         }
 
         private void CheckIsDirectionRightToStart(SensorReadingEventArgs<AccelerometerReading> e)
@@ -281,8 +303,7 @@ namespace CrazyGuessing
                     Dispatcher.BeginInvoke(() =>
                     {
                         M_NotificationTextBlock.Visibility = Visibility.Collapsed;
-                        M_StringTextBlock.Text =
-                            runningPageList[random.Next(0, runningPageList.Count - 1)];
+                        SetWordContent(runningPageList[random.Next(0, runningPageList.Count - 1)]);
                         M_TimesTextBlock.Text =
                                 (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
 

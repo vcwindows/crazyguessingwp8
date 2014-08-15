@@ -169,9 +169,12 @@
     <Content Include="Resources\GameEnd.wav" />
     <Content Include="Resources\GameStart.wav" />
     <Content Include="Resources\GameStart0.wav" />
-    <Content Include="Resources\logo.png" />
     <Content Include="Resources\Next.wav" />
     <Content Include="Resources\Pass.wav" />
+    <Content Include="Resources\Tiles\medium.png" />
+    <Content Include="Resources\Tiles\small.png" />
+    <Content Include="Resources\Tiles\StoreLogo_358-358.png" />
+    <Content Include="Resources\Tiles\TileSquare-300.png" />
     <Content Include="Resources\woosh.wav" />
   </ItemGroup>
   <ItemGroup>
