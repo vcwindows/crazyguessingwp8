@@ -25,13 +25,14 @@ namespace CrazyGuessing
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            MCountTextBlock.Text = ResultItems.Count(vi => vi.IsRight).ToString();
             xllsResultDetail.ItemsSource = new ObservableCollection<ViewResultItem>(ResultItems);
         }
 
         private void Back_Clicked(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
-                NavigationService.GoBack();
+            NavigationService.RemoveBackEntry();
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 

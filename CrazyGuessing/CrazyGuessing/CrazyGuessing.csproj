@@ -97,6 +97,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MarketplaceReviewTask.cs" />
     <Compile Include="PlayRulePage.xaml.cs">
       <DependentUpon>PlayRulePage.xaml</DependentUpon>
     </Compile>

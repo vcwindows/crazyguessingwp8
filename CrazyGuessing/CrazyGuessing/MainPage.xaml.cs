@@ -294,6 +294,10 @@ namespace CrazyGuessing
 
         private void ViewPlayRule_Clicked(object sender, RoutedEventArgs e)
         {
+            // For Rating this app in AppStore
+            //MarketplaceReviewTask task = new MarketplaceReviewTask();
+            //task.Show();
+
             NavigationService.Navigate(new Uri("/CrazyGuessing;component/PlayRulePage.xaml", UriKind.Relative));
         }
     }
