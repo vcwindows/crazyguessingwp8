@@ -46,8 +46,8 @@
                     <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
                         <Button BorderBrush="Transparent" Tag="R" Height="252" Width="252" HorizontalAlignment="Stretch" Background="#FF5B17" Click="Page_OnClick" Content="随机" FontSize="48" Margin="10,20,0,0"/>
                         <Button BorderBrush="Transparent" Tag="1" Height="252" Width="252" HorizontalAlignment="Stretch" Background="#FFA517" Click="Page_OnClick" Content="电影大全" FontSize="48" Margin="0,20,0,0"/>
-                        <Button BorderBrush="Transparent" Tag="2" Height="252" Width="252" HorizontalAlignment="Stretch" Background="#68B900" Click="Page_OnClick" Content="生活用品" FontSize="48" Margin="0,20,0,0"/>
-                        <Button BorderBrush="Transparent" Tag="3" Height="252" Width="252" HorizontalAlignment="Stretch" Background="#00D09C" Click="Page_OnClick" Content="体育项目" FontSize="48" Margin="0,20,0,0"/>
+                        <Button BorderBrush="Transparent" Tag="2" Height="252" Width="252" HorizontalAlignment="Stretch" Background="#68B900" Click="Page_OnClick" Content="一线品牌" FontSize="48" Margin="0,20,0,0"/>
+                        <Button BorderBrush="Transparent" Tag="3" Height="252" Width="252" HorizontalAlignment="Stretch" Background="#00D09C" Click="Page_OnClick" Content="娱乐明星" FontSize="48" Margin="0,20,0,0"/>
                     </StackPanel>
                 </ScrollViewer>
             </StackPanel>
