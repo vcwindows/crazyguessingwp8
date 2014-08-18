@@ -23,24 +23,26 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         <!--<TextBlock Foreground="White" Text="玩法介绍" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="90" Margin="0,20,0,0"/>-->
         <Grid Margin="20,80,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <!--<ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>-->
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Width="200" Height="200" Style="{StaticResource IconButtonStyle}" BorderThickness="0" x:Name="ShareButton" Click="M_ShareButton_OnClick">
                     <Image Source="Resources/Tiles/touxiang1.jpg"></Image>
                 </Button>
-                <TextBlock Text="给个好评点击喵" HorizontalAlignment="Center" FontSize="28"></TextBlock>
+                <TextBlock Text="给个好评喵" HorizontalAlignment="Center" FontSize="28"></TextBlock>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="M_EmailTask"  Style="{StaticResource IconButtonStyle}" BorderThickness="0" Width="200" Height="200" Click="M_EmailButton_OnClick">
                     <Image Source="Resources/Tiles/touxiang1.jpg"></Image>
                 </Button>
-                <TextBlock Text="想来吐槽点击喵" HorizontalAlignment="Center" FontSize="28"></TextBlock>
+                <TextBlock Text="想来吐槽喵" HorizontalAlignment="Center" FontSize="28"></TextBlock>
             </StackPanel>
 
             <!--<StackPanel  Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
