@@ -28,7 +28,7 @@
         <TextBlock Foreground="White" Text="答对词数" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="90" Margin="0,20,0,0"/>
         <Ellipse Height="150" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,100,20,0" Fill="White"/>
         <Ellipse Height="138" Width="138" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,106,26,0" Fill="{StaticResource MainBackgroundBrush}"/>
-        <TextBlock x:Name="MCountTextBlock" Foreground="White" Text="0" FontSize="90" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,108,70,0" />
+        <TextBlock Width="100" TextAlignment="Center" x:Name="MCountTextBlock" Foreground="White" Text="0" FontSize="90" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,108,45,0" />
         <Grid Margin="0,190,0,20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
             <phone:LongListSelector x:Name="xllsResultDetail" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                 <phone:LongListSelector.ItemTemplate>
