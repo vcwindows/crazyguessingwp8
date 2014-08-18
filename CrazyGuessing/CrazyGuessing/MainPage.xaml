@@ -19,15 +19,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="M_StringTextBlock" Foreground="Black" FontSize="200" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="M_TimesTextBlock" Grid.Row="1" Foreground="{StaticResource MainBackgroundBrush}"  Margin="0,0,0,20" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <Path Data="F1M19.933,21.669L27.305,14.713 21.309,14.713 11.443,24.021 21.264,33.286 27.26,33.286 19.933,26.372 36.558,26.372 36.558,21.669z M24,0C10.745,0 0,10.744 0,24 0,37.253 10.745,48 24,48 37.254,48 48,37.253 48,24 48,10.744 37.254,0 24,0 M24,2C36.131,2 46,11.869 46,24 46,36.13 36.131,46 24,46 11.87,46 2,36.13 2,24 2,11.869 11.87,2 24,2" Fill="White" Height="48" Width="48"/>
+            <TextBlock Margin="0,50,0,0" x:Name="M_StringTextBlock" Foreground="Black" FontSize="200" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock  x:Name="M_TimesTextBlock" Grid.Row="1" Foreground="{StaticResource MainBackgroundBrush}"  Margin="0,0,0,20" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         </Grid>
 
         <TextBlock Visibility="Collapsed" x:Name="M_NotificationTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MainForegroundBrush}" FontSize="90" Text=""/>
 
         <TextBlock Visibility="Collapsed" x:Name="M_CountNumbersTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MainForegroundBrush}" FontSize="300"/>
 
-        <Grid x:Name="M_FrontPagePanel">
+        <Grid x:Name="M_FrontPagePanel" Visibility="Visible">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0">
 

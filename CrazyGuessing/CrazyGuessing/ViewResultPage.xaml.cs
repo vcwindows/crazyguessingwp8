@@ -30,7 +30,7 @@ namespace CrazyGuessing
             xllsResultDetail.ItemsSource = new ObservableCollection<ViewResultItem>(ResultItems);
         }
 
-        private void Back_Clicked(object sender, RoutedEventArgs e)
+        private void M_BackButton_OnClick(object sender, RoutedEventArgs e)
         {
             while (NavigationService.CanGoBack)
             {

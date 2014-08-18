@@ -143,7 +143,8 @@ namespace CrazyGuessing
             if (timerCount > 0)
             {
                 timerCount--;
-                M_TimesTextBlock.Text = (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
+
+                M_TimesTextBlock.Text = String.Format("{0} : {1:00}", timerCount / 60, timerCount % 60);
             }
             // if times up, end the round
             if (timerCount == 0)
@@ -312,8 +313,7 @@ namespace CrazyGuessing
                     {
                         M_NotificationTextBlock.Visibility = Visibility.Collapsed;
                         SetWordContent(runningPageList[random.Next(0, runningPageList.Count - 1)]);
-                        M_TimesTextBlock.Text =
-                                (timerCount / 60).ToString() + " : " + (timerCount % 60).ToString();
+                        M_TimesTextBlock.Text = String.Format("{0} : {1:00}", timerCount / 60, timerCount % 60);
 
                         M_GamingPanel.Visibility = Visibility.Visible;
                         timer.Start();
