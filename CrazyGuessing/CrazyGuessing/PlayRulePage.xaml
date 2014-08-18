@@ -14,14 +14,13 @@
     shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
-  <Grid x:Name="LayoutRoot" Background="Transparent">
-    <Image x:Name="BackGroundImage" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/Background.jpg"></Image>
+  <Grid x:Name="LayoutRoot" Background="{StaticResource MainBackgroundBrush}">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF24BF39" FontSize="60" Text="猜对向前翻"/>
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF24BF39" FontSize="60" Text="放弃向后翻"/>
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF24BF39" FontSize="60" Text="切记勿手抖"/>
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MainForegroundBrush}" FontSize="60" Text="选择猜词分类后将手机垂直"/>
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MainForegroundBrush}" FontSize="60" Text="向前翻表示回答正确"/>
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MainForegroundBrush}" FontSize="60" Text="向后翻表示跳过"/>
     </StackPanel>
-    <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="后退" Background="Bisque" Foreground="CadetBlue" Click="Back_Clicked"/>
+    <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="后退" Click="Back_Clicked"/>
   </Grid>
 
 </phone:PhoneApplicationPage>

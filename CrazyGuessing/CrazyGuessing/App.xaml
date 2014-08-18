@@ -5,16 +5,24 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
 
-    <!--应用程序资源-->
-    <Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:CrazyGuessing" x:Key="LocalizedStrings"/>
-    </Application.Resources>
+  <!--应用程序资源-->
+  <Application.Resources>
+    <local:LocalizedStrings xmlns:local="clr-namespace:CrazyGuessing" x:Key="LocalizedStrings"/>
+    <SolidColorBrush x:Key="MainBackgroundBrush" Color="#00a3ee"/>
+    <SolidColorBrush x:Key="MainForegroundBrush" Color="White"/>
+    
+    <Style TargetType="Button">
+      <Setter Property="BorderBrush" Value="{StaticResource MainForegroundBrush}"/>
+      <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
+      <Setter Property="Foreground" Value="{StaticResource MainForegroundBrush}"/>
+    </Style>
+  </Application.Resources>
 
-    <Application.ApplicationLifetimeObjects>
-        <!--处理应用程序的生存期事件所需的对象-->
-        <shell:PhoneApplicationService
+  <Application.ApplicationLifetimeObjects>
+    <!--处理应用程序的生存期事件所需的对象-->
+    <shell:PhoneApplicationService
             Launching="Application_Launching" Closing="Application_Closing"
             Activated="Application_Activated" Deactivated="Application_Deactivated"/>
-    </Application.ApplicationLifetimeObjects>
+  </Application.ApplicationLifetimeObjects>
 
 </Application>

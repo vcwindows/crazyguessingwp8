@@ -34,7 +34,7 @@ namespace CrazyGuessing
         {
             while (NavigationService.CanGoBack)
             {
-                NavigationService.RemoveBackEntry();   
+                NavigationService.RemoveBackEntry();
             }
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute));
         }
@@ -61,7 +61,7 @@ namespace CrazyGuessing
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return (bool)value ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            return (bool)value ? new SolidColorBrush(Color.FromArgb(0xff, 0x00, 0xcc, 0x00)) : new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0x33, 0x00));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
