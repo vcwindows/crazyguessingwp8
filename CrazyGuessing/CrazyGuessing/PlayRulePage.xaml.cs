@@ -22,5 +22,11 @@ namespace CrazyGuessing
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
         }
+
+        private void M_BackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+                NavigationService.GoBack();
+        }
     }
 }

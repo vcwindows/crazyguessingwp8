@@ -79,7 +79,15 @@ namespace CrazyGuessing
             if (!(sender is Button)) return;
 
             var button = sender as Button;
-            runningPageList = GetPageList("Page" + button.Tag.ToString() + ".txt");
+
+            if (button.Tag.ToString() == "R")
+            {
+                runningPageList = GetPageList("Page" + random.Next(1, 3).ToString() + ".txt");
+            }
+            else
+            {
+                runningPageList = GetPageList("Page" + button.Tag.ToString() + ".txt");
+            }
 
             Prepare();
         }
@@ -239,7 +247,7 @@ namespace CrazyGuessing
                     runningPageList.Remove(M_StringTextBlock.Text);
                 }
                 SetWordContent(runningPageList[random.Next(0, runningPageList.Count - 1)]);
-                
+
             })).Start();
         }
 
@@ -313,13 +321,14 @@ namespace CrazyGuessing
                 }).Start();
         }
 
-        private void ViewPlayRule_Clicked(object sender, RoutedEventArgs e)
+        private void M_PlayRuleButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // For Rating this app in AppStore
-            //MarketplaceReviewTask task = new MarketplaceReviewTask();
-            //task.Show();
-
             NavigationService.Navigate(new Uri("/CrazyGuessing;component/PlayRulePage.xaml", UriKind.Relative));
+        }
+
+        private void M_InfoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Enjoy you trip. - VCDW");
         }
     }
 }
