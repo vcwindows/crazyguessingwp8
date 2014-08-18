@@ -328,7 +328,7 @@ namespace CrazyGuessing
 
         private void M_InfoButton_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Enjoy you trip. - VCDW");
+            NavigationService.Navigate(new Uri("/CrazyGuessing;component/ViewInfoPage.xaml", UriKind.Relative));
         }
     }
 }

@@ -107,6 +107,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewInfoPage.xaml.cs">
+      <DependentUpon>ViewInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewResultPage.xaml.cs">
       <DependentUpon>ViewResultPage.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlayRulePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +177,7 @@
     <Content Include="Resources\GameStart0.wav" />
     <Content Include="Resources\Next.wav" />
     <Content Include="Resources\Pass.wav" />
+    <Content Include="Resources\Tiles\touxiang1.jpg" />
     <Content Include="Resources\Tiles\medium.png" />
     <Content Include="Resources\Tiles\small.png" />
     <Content Include="Resources\Tiles\StoreLogo_358-358.png" />
