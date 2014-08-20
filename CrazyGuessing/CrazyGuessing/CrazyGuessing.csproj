@@ -163,9 +163,9 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Page1.txt" />
-    <Content Include="Page2.txt" />
-    <Content Include="Page3.txt" />
+    <Content Include="Words\Page1.txt" />
+    <Content Include="Words\Page2.txt" />
+    <Content Include="Words\Page3.txt" />
     <Content Include="Resources\Begin.wav" />
     <Content Include="Resources\BeginCountDown.wav" />
     <Content Include="Resources\ButtonClick.wav" />
@@ -183,6 +183,7 @@
     <Content Include="Resources\Tiles\StoreLogo_358-358.png" />
     <Content Include="Resources\Tiles\TileSquare-300.png" />
     <Content Include="Resources\woosh.wav" />
+    <Content Include="Words\Page4.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

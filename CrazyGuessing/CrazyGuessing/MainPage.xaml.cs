@@ -82,11 +82,11 @@ namespace CrazyGuessing
 
             if (button.Tag.ToString() == "R")
             {
-                runningPageList = GetPageList("Page" + random.Next(1, 3).ToString() + ".txt");
+                runningPageList = GetPageList(@"Words/Page" + random.Next(1, 4).ToString() + ".txt");
             }
             else
             {
-                runningPageList = GetPageList("Page" + button.Tag.ToString() + ".txt");
+                runningPageList = GetPageList(@"Words/Page" + button.Tag.ToString() + ".txt");
             }
 
             Prepare();
@@ -271,6 +271,7 @@ namespace CrazyGuessing
                 Dispatcher.BeginInvoke(() =>
                 {
                     M_NotificationTextBlock.Text = "请垂直放于额头";
+                    M_NotificationTextBlock.FontSize = 90;
                 });
                 return;
             }
@@ -282,6 +283,7 @@ namespace CrazyGuessing
                     Dispatcher.BeginInvoke(() =>
                     {
                         M_NotificationTextBlock.Text = "3";
+                        M_NotificationTextBlock.FontSize = 200;
                     });
                     PlaySound("BeginCountDown");
                     Thread.Sleep(1000);
