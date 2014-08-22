@@ -198,7 +198,7 @@ namespace CrazyGuessing
 
         private void HandleToCalm(SensorReadingEventArgs<AccelerometerReading> e)
         {
-            if (Math.Abs(e.SensorReading.Acceleration.Z) >= 0.3)
+            if (Math.Abs(e.SensorReading.Acceleration.Z) >= 0.4)
             {
                 trackRecordPointsCount = 0;
                 return;
