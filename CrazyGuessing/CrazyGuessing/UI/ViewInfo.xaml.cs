@@ -1,27 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
+﻿using CrazyGuessing.StatusMachine;
 using Microsoft.Phone.Tasks;
+using System.Windows;
+using MarketplaceReviewTask = CrazyGuessing.Functions.MarketplaceReviewTask;
 
-namespace CrazyGuessing
+namespace CrazyGuessing.UI
 {
-    public partial class ViewInfoPage : PhoneApplicationPage
+    public partial class ViewInfo
     {
-        public ViewInfoPage()
+        public ViewInfo()
         {
             InitializeComponent();
         }
 
         private void M_BackButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (NavigationService.CanGoBack)
-                NavigationService.GoBack();
+            StatusController.SetStatus(StatusEnum.FrontPage);
         }
 
         private void M_ShareButton_OnClick(object sender, RoutedEventArgs e)

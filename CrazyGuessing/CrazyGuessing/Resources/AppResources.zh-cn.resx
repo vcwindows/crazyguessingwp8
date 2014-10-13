@@ -117,6 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppBarButtonText" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="AppBarMenuItemText" xml:space="preserve">
+    <value>菜单项</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>我的应用程序</value>
+  </data>
+  <data name="CrazyGuessing" xml:space="preserve">
+    <value>疯狂猜词</value>
+  </data>
+  <data name="EmailMe" xml:space="preserve">
+    <value>想来吐槽喵</value>
+  </data>
+  <data name="PlayRule" xml:space="preserve">
+    <value>玩法说明</value>
+  </data>
+  <data name="PlayRuleStep1" xml:space="preserve">
+    <value>根据对方提示猜出显示词语</value>
+  </data>
+  <data name="PlayRuleStep2" xml:space="preserve">
+    <value>正确！将手机向前翻转</value>
+  </data>
+  <data name="PlayRuleStep3" xml:space="preserve">
+    <value>跳过！将手机向后翻转</value>
+  </data>
+  <data name="PutOnHeadVertically" xml:space="preserve">
+    <value>请垂直放于额头</value>
+  </data>
+  <data name="RateMe" xml:space="preserve">
+    <value>给个好评喵</value>
+  </data>
   <data name="ResourceFlowDirection" xml:space="preserve">
     <value>LeftToRight</value>
     <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
@@ -124,38 +157,5 @@
   <data name="ResourceLanguage" xml:space="preserve">
     <value>zh-CN</value>
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
-  </data>
-  <data name="ApplicationTitle" xml:space="preserve">
-    <value>我的应用程序</value>
-  </data>
-  <data name="AppBarButtonText" xml:space="preserve">
-    <value>添加</value>
-  </data>
-  <data name="AppBarMenuItemText" xml:space="preserve">
-    <value>菜单项</value>
-  </data>
-  <data name="PlayRule" xml:space="preserve">
-    <value>Play Rule</value>
-  </data>
-  <data name="PlayRuleStep1" xml:space="preserve">
-    <value>Watch display, guess words</value>
-  </data>
-  <data name="PlayRuleStep2" xml:space="preserve">
-    <value>Pass! Flip the phone front</value>
-  </data>
-  <data name="PlayRuleStep3" xml:space="preserve">
-    <value>Skip! Flip the phone back</value>
-  </data>
-  <data name="CrazyGuessing" xml:space="preserve">
-    <value>Crazy Guessing</value>
-  </data>
-  <data name="EmailMe" xml:space="preserve">
-    <value>Say to me</value>
-  </data>
-  <data name="PutOnHeadVertically" xml:space="preserve">
-    <value>Put on head vertically</value>
-  </data>
-  <data name="RateMe" xml:space="preserve">
-    <value>Rate Me</value>
   </data>
 </root>
